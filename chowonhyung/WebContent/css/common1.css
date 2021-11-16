@@ -1,0 +1,67 @@
+@charset "UTF-8";
+
+/* form 양식 css */
+
+/* 입력양식 형식 inline을 block */
+input {
+	display: block;
+	margin: 5px 0;
+	padding: 5px;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+	background-color: #F0F8FF;	
+}
+
+input[type="submit"].btn_color {
+	width: 177px;
+	height: 35px;
+	margin-top: 10px;
+	background-color: #B7D7ED;
+	border: none;
+	color: #fff;
+	border-radius: 20px;
+}
+
+input.inline {
+	display: inline;
+}
+
+span.label_text {
+	margin-left: 1px;
+	font-size: 11px;
+	color: #0573C1;
+}
+
+.errorMessage {
+	color: red;
+	font-weigth: bold;
+	font-size: 10px;
+}
+
+/* 밑줄제거 */
+a{ text-decoration:none; }
+a:link{color:#0573C1}
+a:visited{color:#0573C1}
+a:hover{font-weight:bold;}
+a:active{font-weight:bold;}
+
+/* 로고 hover */
+#logo_img:hover{
+	width:600px;
+	heigth:800px;
+	border:dashed 3px white;
+}
+
+/* index.html */
+#front{
+	margin:0 50px 0 50px;
+}
+
+/* 가운데 정렬 */
+#center{
+	display: inline-block;
+    text-align: center;
+    padding-left:45%;
+}
+             

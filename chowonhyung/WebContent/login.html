@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>로그인</title>
+<!-- 외부 css 링크 설정 -->
+<link type = "text/css" rel="stylesheet" href="css/common1.css">
+<style>
+	#front a[href *= "login"]{
+		font-weight:bold;
+	}	
+</style>
+
+<!-- 내부 js -->
+<script type="text/javascript">
+	function loginCheck() {
+		// 아이디 입력항목 객체 가져오기
+		var memberIdElement = document.login_form.memberId;
+		
+		// 아이디 입력데이터 가져오기 : value 속성 => 사용자 입력 데이터 추출 => 타입 String
+		var memberId = memberIdElement.value;
+		console.log('memberId : ', memberId);
+		//alert('memberId : ' + memberId);
+		
+		var memberId2 = document.login_form.memberId.value;
+		
+		// 비밀번호 입력항목 객체 가져오기
+		var memberPwElement = document.login_form.memberPw;
+		
+		// 비밀번호 입력데이터 가져오기
+		var memberPw = memberPwElement.value;
+		console.log('memberPw : ', memberPw);
+		//alert('memberPw : ' + memberPw);
+		
+		// 로그인 데이터 검증규칙 : 입력데이터 타입 String, 길이 length변수, 공백제거 trim()
+		// 1. 아이디, 비밀번호 필수 입력항목 : html5 required="required"
+		// 2. 비밀번호는 숫자 데이터 : 내장함수 isNaN()
+		// 3. 아이디는 6자리 ~ 30자리 : 
+		// 4. 비밀번호는 6자리 ~ 20자리
+		
+		var memberIdMessageElement = document.getElementById("memberIdMessage");
+		var memberPwMessageElement = document.getElementById("memberPwMessage");
+		
+		// 입력데이터 공백 제거
+		memberId = memberId.trim();
+		memberPw = memberPw.trim();
+		console.log(memberId.length + ", " + memberPw.length);
+		
+		// 아이디 검증
+		if (memberId.length == 0) { // 필수입력항목체크
+			//alert('아이디를 입력하시기 바랍니다.');
+			memberIdMessageElement.innerHTML = "아이디를 입력하시기 바랍니다.";
+			memberIdElement.value = "";
+			memberIdElement.focus();
+			return false;
+		} else if (memberId.length < 6 || memberId.length > 30) {
+			memberIdMessageElement.innerHTML = "아이디는 6~30자리 이내로 입력하시기 바랍니다.";
+			memberIdElement.value = "";
+			memberIdElement.focus();
+			return false;
+		}
+		
+		// 비밀번호 검증
+		if (memberPw.length == 0) {
+			memberPwMessageElement.innerHTML = "비밀번호를 입력하시기 바랍니다.";
+			memberPwElement.value = "";
+			memberPwElement.focus();
+			return false;
+		} else if(isNaN(memberPw)) {
+			memberPwMessageElement.innerHTML = "비밀번호는 숫자로 입력하시기 바랍니다.";
+			memberPwElement.value = "";
+			memberPwElement.focus();
+			return false;
+		} else if (memberPw.length < 6 || memberPw.length > 20) {
+			memberPwMessageElement.innerHTML = "비밀번호는 6~20자리 이내로 입력하시기 바랍니다.";
+			memberPwElement.value = "";
+			memberPwElement.focus();
+			return false;
+		}
+		
+		// submit 전용 버튼은 별도로 수행 필요없음
+		//document.login_form.submit();
+	}
+	
+	/* 아이디 오류메세지 지우기 함수 */
+	function clearMessageMemberId() {
+		// 오류메세지 지우기
+		var memberIdMessageElement = document.getElementById("memberIdMessage");
+		memberIdMessageElement.innerHTML = "";
+	}
+	
+	/* 비밀번호 오류메세지 지우기 함수 */
+	function clearMessageMemberPw() {
+		// 오류메세지 지우기
+		var memberPwMessageElement = document.getElementById("memberPwMessage");
+		memberPwMessageElement.innerHTML = "";
+	}
+	
+	/* 비밀번호 표시 함수 */
+	function visibleMemberPw() {
+		// 비밀번호표시 체크박스 객체 가져오기
+		var memberPwVisibleElement = document.getElementById("memberPwVisible");
+		
+		// 체크박스객체의 체킹여부에 따라서 비밀번호 보이기/감추기
+		// 비밀번호 객체 가져오기
+		var memberPwElement = document.getElementById("memberPw");
+		if (memberPwVisibleElement.checked) {
+			// 비밀번호객체의 type을 text 타입으로 변경 : 비밀번호 보이기
+			memberPwElement.type = "text";
+		} else {
+			// 비밀번호객체의 type을 password 타입으로 변경 : 비밀번호 감추기
+			memberPwElement.type = "password";
+		}
+	}
+</script>
+</head>
+<body>
+
+<!-- img log -->
+<div id="front">
+	<div id="logo_img">
+	<a href="index.html"><img src ="img/chowonhyung.jpg" title = "풍선도움말:시작페이지이동" alt="홈으로가기" width="200px"></a>
+	</div>
+	
+	<!-- 메뉴 -->
+	<a href = "login.html">로그인</a>
+	<a href = "memberInput.html">회원가입</a>
+	<a href = "memberFind.html">아이디/비밀번호찾기</a>
+	<hr>
+</div>
+
+
+<div id= "center">
+<h3>로그인</h3>
+<form action="success.html" method="post" name="login_form" id="login_form">
+	<!-- 아이디 -->
+	<input class="input_focus" type="text" 
+		name="memberId" id="memberId" placeholder="아이디" autofocus="autofocus"
+		onkeydown="clearMessageMemberId()">
+	<!-- 아이디 오류메세지  -->	
+	<div id="memberIdMessage" class="errorMessage"></div>
+	
+	<!-- 비밀번호 -->	
+	<input class="input_focus" type="password" 
+		name="memberPw" id="memberPw" placeholder="비밀번호"
+		onkeydown="clearMessageMemberPw()">
+	<!-- checkbox : 비밀번호 표시하기 -->	
+	<input class="inline" type="checkbox" name="memberPwVisible" id="memberPwVisible"
+		onclick="visibleMemberPw()">
+	<span class="label_text">비밀번호 표시</span>
+	<!-- 비밀번호 오류메세지 -->
+	<div id="memberPwMessage" class="errorMessage"></div>
+	
+	<!-- 로그인 요청버튼 -->
+	<input class="btn_color" type="submit" value="로그인" onclick="return loginCheck()">
+</form>
+</div>
+</body>
+</html>

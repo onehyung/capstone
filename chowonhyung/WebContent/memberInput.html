@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title>
+<!-- 외부 css 링크 설정 -->
+<link type = "text/css" rel="stylesheet" href="css/common1.css">
+<style>
+	#front a[href *= "memberInput"]{
+		font-weight:bold;
+	}
+	
+	#center select, input[name*="mobile"]{
+		display:inline;
+	}
+	
+	#center label, span, input[name*="memberPwVisible"]{
+	float:left;
+	}
+</style>
+
+<!-- 내부 js -->
+<script type="text/javascript">
+	function registerCheck() {
+		// 입력항목 객체 가져오기
+		var memberIdElement = document.register_form.memberId;
+		var memberPwElement = document.register_form.memberPw;
+		var memberPwElement2 = document.register_form.memberPw2;
+		var nameElement = document.register_form.name;
+		
+		
+
+		
+		
+		// 입력데이터 가져오기
+		var memberId = memberIdElement.value;
+		var memberPw = memberPwElement.value;
+		var memberPw2 = memberPwElement2.value;
+		var name = nameElement.value;
+
+
+		
+		var memberIdMessageElement = document.getElementById("memberIdMessage");
+		var memberPwMessageElement = document.getElementById("memberPwMessage");
+		var memberPwMessageElement2 = document.getElementById("memberPwMessage2");
+		var nameMessageElement = document.getElementById("nameMessage");
+		
+		// 입력데이터 공백 제거
+		memberId = memberId.trim();
+		memberPw = memberPw.trim();
+		memberPw2 = memberPw2.trim();
+		name = name.trim();
+		
+		// 아이디 검증
+		if (memberId.length == 0) { // 필수입력항목체크
+			//alert('아이디를 입력하시기 바랍니다.');
+			memberIdMessageElement.innerHTML = "아이디를 입력하시기 바랍니다.";
+			memberIdElement.value = "";
+			memberIdElement.focus();
+			return false;
+		} else if (memberId.length < 6 || memberId.length > 30) {
+			memberIdMessageElement.innerHTML = "아이디는 6~30자리 이내로 입력하시기 바랍니다.";
+			memberIdElement.value = "";
+			memberIdElement.focus();
+			return false;
+		}
+		
+		// 비밀번호 검증
+		if (memberPw.length == 0) {
+			memberPwMessageElement.innerHTML = "비밀번호를 입력하시기 바랍니다.";
+			memberPwElement.value = "";
+			memberPwElement.focus();
+			return false;
+		} else if(isNaN(memberPw)) {
+			memberPwMessageElement.innerHTML = "비밀번호는 숫자로 입력하시기 바랍니다.";
+			memberPwElement.value = "";
+			memberPwElement.focus();
+			return false;
+		} else if (memberPw.length < 6 || memberPw.length > 20) {
+			memberPwMessageElement.innerHTML = "비밀번호는 6~20자리 이내로 입력하시기 바랍니다.";
+			memberPwElement.value = "";
+			memberPwElement.focus();
+			return false;
+		}
+		
+		// 비밀번호 재확인 검증
+		if(memberPw2.length == 0) {
+			memberPwMessageElement2.innerHTML = "비밀번호 재확인을 입력하시기 바랍니다.";
+			memberPwElement2.value = "";
+			memberPwElement2.focus();
+			return false;
+		} else if(isNaN(memberPw2)) {
+			memberPwMessageElement2.innerHTML = "비밀번호는 숫자로 입력하시기 바랍니다.";
+			memberPwElement2.value = "";
+			memberPwElement2.focus();
+			return false;
+		} else if(memberPw2 != memberPw) {
+			memberPwMessageElement2.innerHTML = "비밀번호가 일치하지 않습니다.";
+			memberPwElement.focus();
+			return false;
+		}
+		
+		//이름 검증
+		if(name.length == 0) {
+			nameMessageElement.innerHTML = "이름을 입력하시기 바랍니다.";
+			nameElement.value="";
+			nameElement.focus();
+			return false;
+		} else if(name.length <2 || name.length >5) {
+			nameMessageElement.innerHTML = "이름은 2~5자 내외입니다.";
+			nameElement.value = "";
+			nameElement.focus();
+			return false;
+		}
+		
+	}
+		
+		function autoEmail(emailData) {
+	        emailElement = document.getElementById("email2");
+	        if (emailData == "none") {
+	            emailElement.value = "";
+	            document.getElementById("email2").readOnly = true;
+	        }else if(emailData == "naver"){
+	            emailElement.value = "naver.com";
+	            document.getElementById("email2").readOnly = true;
+	        }else if(emailData == "google"){
+	            emailElement.value = "google.com";
+	            document.getElementById("email2").readOnly = true;
+	        }else if(emailData == "aa"){
+	            emailElement.value = "";
+	            document.getElementById("email2").readOnly = false;
+	        }
+		}
+	
+	/* 아이디 오류메세지 지우기 함수 */
+	function clearMessageMemberId() {
+		var memberIdMessageElement = document.getElementById("memberIdMessage");
+		memberIdMessageElement.innerHTML = "";
+	}
+	
+	/* 비밀번호 오류메세지 지우기 함수 */
+	function clearMessageMemberPw() {
+		var memberPwMessageElement = document.getElementById("memberPwMessage");
+		memberPwMessageElement.innerHTML = "";
+	}
+	
+	/* 비밀번호 표시 함수 */
+	function visibleMemberPw() {
+		// 비밀번호표시 체크박스 객체 가져오기
+		var memberPwVisibleElement = document.getElementById("memberPwVisible");
+		
+		// 체크박스객체의 체킹여부에 따라서 비밀번호 보이기/감추기
+		// 비밀번호 객체 가져오기
+		var memberPwElement = document.getElementById("memberPw2");
+		if (memberPwVisibleElement.checked) {
+			// 비밀번호객체의 type을 text 타입으로 변경 : 비밀번호 보이기
+			memberPwElement.type = "text";
+		} else {
+			// 비밀번호객체의 type을 password 타입으로 변경 : 비밀번호 감추기
+			memberPwElement.type = "password";
+		}
+	}
+	
+	/* 이름 오류메세지 지우기 함수 */
+	function clearMessageName() {
+		var nameMessageElement = document.getElementById("nameMessage");
+		nameMessageElement.innerHTML = "";
+	}
+	
+	/* 윈도우 로드시 이벤트 처리
+	1. 아이디 포커스 위치 : html5 추가 속성 : autofocus
+	2. 휴대폰2, 휴대폰 3 읽기전용 설정
+	*/
+	window.onload = function() {
+		document.getElementById("memberId").focus();
+		//document.inputForm.memberId.focus();
+		
+		document.getElementById("mobile2").readOnly = true;
+		document.getElementById("mobile3").readOnly = true;
+	}
+
+	/* 비밀번호, 비밀번호확인  보이기 감추기 함수 
+		-- 체크박스 선택 : true (보이기)
+		-- 체크박스 선택해제 : false (감추기)
+	*/
+	function shwoPw(takeElement) {
+		var memberPwElement = document.getElementById("memberPw");
+		var memberPwConfirmElement = document.getElementById("memberPwConfirm");
+		var viewPasswordElement = document.getElementById("viewPassword");
+		var message = ["보이기", "감추기"];
+		
+		if (takeElement.checked) {
+			console.log("보이기");
+			memberPwElement.type = "text";
+			memberPwConfirmElement.type = "text";
+			viewPasswordElement.innerHTML = message[1];
+		} else {
+			console.log("감추기");
+			memberPwElement.type = "password";
+			memberPwConfirmElement.type = "password";
+			viewPasswordElement.innerHTML = message[0];
+		}
+	}
+		
+	/* 핸드폰 검증 */
+	function lockMobile(takeData) {
+		if (takeData == "none") {
+			document.getElementById("mobile2").readOnly = true;
+			document.getElementById("mobile3").readOnly = true;
+			
+		} else if (takeData == "010") {
+			document.getElementById("mobile2").readOnly = false;
+			document.getElementById("mobile3").readOnly = false;
+			
+			document.getElementById("mobile2").focus();
+		} 
+	}
+		
+	function autoTab() {
+		var mobileElement2 = document.register_form.mobile2;
+		var mobileElement3 = document.register_form.mobile3;
+		
+		var mobile2 = mobileElement2.value;
+		var mobile3 = mobileElement3.value;
+		
+		if(mobile2.length == 4) {
+			mobileElement3.focus();
+		}
+	}
+	
+	function autoTab2() {
+		var emailElement1 = document.register_form.email1;
+		var mobileElement3 = document.register_form.mobile3;
+		
+		var email1 = emailElement1.value;
+		var mobile3 = mobileElement3.value;
+		
+		if(mobile3.length == 4) {
+			emailElement1.focus();
+		}
+	}
+	
+</script>
+</head>
+<body>
+
+<!-- img log -->
+<div id="front">
+	<div id="logo_img">
+	<a href="index.html"><img src ="img/chowonhyung.jpg" title = "풍선도움말:시작페이지이동" alt="홈으로가기" width="200px" heigth="200px"></a>
+	</div>
+	
+	<!-- 메뉴 -->
+	<a href = "login.html">로그인</a>
+	<a href = "memberInput.html">회원가입</a>
+	<a href = "memberFind.html">아이디/비밀번호찾기</a>
+	<hr>
+</div>
+
+<div id= "center">
+<h3>회원가입</h3>
+<form action="success.html" method="post" name="register_form" id="register_form">
+	<!-- 아이디 -->
+	<label>아이디</label><br>
+	<input class="input_focus" type="text" 
+		name="memberId" id="memberId" placeholder="아이디" autofocus="autofocus"
+		onkeydown="clearMessageMemberId()">
+	<!-- 아이디 오류메세지  -->	
+	<div id="memberIdMessage" class="errorMessage"></div>
+	
+	
+	<!-- 비밀번호 -->	
+	<label>비밀번호</label><br>
+	<input class="input_focus" type="password" 
+		name="memberPw" id="memberPw" placeholder="비밀번호"
+		onkeydown="clearMessageMemberPw()">
+	<!-- 비밀번호 오류메세지 -->
+	<div id="memberPwMessage" class="errorMessage"></div>
+	
+	
+	<!-- 비밀번호 재확인 -->
+	<label>비밀번호 재확인</label><br>
+	<input class="input_focus" type="password" 
+		name="memberPw2" id="memberPw2" placeholder="비밀번호 재확인"
+		onkeydown="clearMessageMemberPw2()">
+	<!-- 비밀번호 재확인 오류메세지 -->
+	<div id="memberPwMessage2" class="errorMessage"></div>		
+	<!-- checkbox : 비밀번호 표시하기 -->	
+	<input class="inline" type="checkbox" name="memberPwVisible" id="memberPwVisible"
+		onclick="visibleMemberPw()">
+	<span class="label_text">비밀번호 표시</span><br><br>
+	
+	
+	<!-- 이름 -->
+	<label>이름</label><br>
+	<input class="input_focus" type="text"
+			name="name" id="name" placeholder="이름"
+			onkeydown="clearMessageName()">
+	<!-- 이름 오류메세지 -->
+	<div id="nameMessage" class="errorMessage"></div>
+	
+	<!-- 휴대폰 -->
+	<label>휴대폰</label><br>
+	<select class="input_focus" name="mobile1" id="mobile1" onchange="lockMobile(value)">
+				<option value="none">::해당없음::</option>
+				<option value="010">010</option>
+	</select> - 
+	<input class="input_focus" name="mobile2" id="mobile2" size="4" maxlength="4" onkeyup="autoTab()"> - 
+	<input class="input_focus" name="mobile3" id="mobile3" size="4" maxlength="4" onkeyup="autoTab2()"><br>
+	
+	<!-- 이메일 -->
+	<label>이메일</label><br>
+	<input class="input_focus" name="email1" id="email1" style="display:inline;">@<input class="input_focus" name="email2" id="email2" style="display:inline;">
+	<select name="email3" id="email3" style="display:inline;" onchange="autoEmail(value)">
+		<option value="none">::선택::</option>
+		<option value="naver">naver</option>
+		<option value="google">google</option>
+		<option value="직접입력">직접입력</option>
+	</select>
+	
+	
+	<!-- 로그인 요청버튼 -->
+	<input class="btn_color" type="submit" value="로그인" onclick="return registerCheck()">
+</form>
+</div>
+
+</body>
+</html>
